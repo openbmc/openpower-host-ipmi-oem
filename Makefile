@@ -6,14 +6,14 @@ TESTER_OBJ  = testit.o oemhandler.o
 LIB_OEM_OBJ = oemhandler.o
 LIB_OEM     = liboemhandler.so
 
-INC_FLAG += -I. -O2 --std=gnu++11
-LIB_FLAG += -rdynamic
+LDFLAGS += -rdynamic
+CXXFLAGS += -fpic -Wall
 
 
 all:  $(TESTER) $(LIB_OEM)
 
 %.o: %.C
-	$(CXX) -fpic -c $< $(CXXFLAGS) $(INC_FLAG) $(IPMID_PATH) -o $@
+	$(CXX) -fpic -c $< $(CXXFLAGS) -o $@
 	
 
 $(LIB_OEM): $(LIB_OEM_OBJ)
@@ -24,4 +24,4 @@ $(TESTER): $(TESTER_OBJ)
 	$(CXX) $^ $(LDFLAGS) $(LIB_FLAG) -o $@ -ldl
 
 clean:
-	rm -f $(TESTER) *.o *.so
+	$(RM) $(LIB_OEM_OBJ) $(LIB_OEM) $(TESTER_OBJ) $(TESTER)

@@ -4,6 +4,12 @@
 #include "oemhandler.h"
 #include <cstring>
 
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
 const char* g_filepath = "/tmp/";
 
 const char * getFilePath(void) { 	return g_filepath; }
@@ -12,56 +18,36 @@ const char * getFilePath(void) { 	return g_filepath; }
 #define MAXRESPONSE 2
 
 
+
 // Returns the length of the file
-size_t checkFileSize(const char *fn) {
-
-	FILE *fp;
-	size_t len = -1;
-
-    if ((fp = fopen(fn, "rb")) != NULL) {
-        fseek(fp, 0, SEEK_END);
-        len = ftell(fp);
-        fclose(fp);	
-    }
-
-    return len;
+std::ifstream::pos_type filesize(const char* filename)
+{
+    std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+    return in.tellg(); 
 }
+
 
 // Compares a string to the data in a file.
 // Returns 0 if complete match
-int compareData(const char *fn, const char *string, size_t len) {
+int compareData(const char *filename, const char *string, size_t len) 
+{
 
-	int rc = 0;
-	FILE *fp;
-	char fbyte;
-	int i=0;
+	std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+	std::streamsize size =  in.tellg();
 
-    if ((fp = fopen(fn, "rb")) != NULL) {
+	std::vector<char>      buffer(size);
+
+	in.read(buffer.data(), size);
+
+	if (!std::memcmp(string, buffer.data(), len)) 
+		return -1;
 	
-		while(fread(&fbyte, 1,1,fp) == 1) {
-    		if (*(string+i) != fbyte) {
-    			rc = -2;
-    			break;
-    		}
-    		i++;
-    	}
-    	fclose(fp);
 
-    	if (len != i) { 
-    		rc = -3; 
-    	}
-    
-    } else { 
-    	rc = -1; 
-    }
-    
-
-
-    return rc;
+    return 0;
 }
 
 
-void test_multiwrite(int segment, const char *pString) {
+void test_multiwrite(unsigned int segment, const char *pString) {
 
 	uint8_t	request[1024];
 	uint8_t	response[MAXRESPONSE];
@@ -87,7 +73,7 @@ void test_multiwrite(int segment, const char *pString) {
 
 	rc = ipmi_ibm_oem_partial_esel(0x3E, 0xF0, pRequest, pResponse, pLen, NULL);
 	if (rc  != IPMI_CC_OK) { printf("Error completion code returned %d\n", rc);}
-	if (len != 2)          { printf("Error data buffer length failed len=%lu\n", len);}
+	if (len != 2)          { printf("Error data buffer length failed len\n");}
 
 	pReqHdr->selrecordls = response[0];
 	pReqHdr->selrecordms = response[1];
@@ -114,7 +100,7 @@ void test_multiwrite(int segment, const char *pString) {
 		rc = ipmi_ibm_oem_partial_esel(0x3E, 0xF0, pRequest, pResponse, pLen, NULL);
 
 		if (rc  != IPMI_CC_OK) { printf("Error completion code returned %d\n", rc);}
-		if (len != 2)          { printf("Error data buffer length failed len=%lu\n", len);}
+		if (len != 2)          { printf("Error data buffer length failed\n");}
 
 		pReqHdr->selrecordls = response[0];
 		pReqHdr->selrecordms = response[1];
@@ -123,7 +109,7 @@ void test_multiwrite(int segment, const char *pString) {
 	}
 		
 
-	if (checkFileSize("/tmp/esel0100") != strlen(pString)) { printf("Error fileszie mismatch\n");}
+	if (filesize("/tmp/esel0100") !=  (unsigned int) strlen(pString)) { printf("Error fileszie mismatch\n");}
 
 	// /tmp/esel000 should be identical to the incoming string
 	rc = compareData("/tmp/esel0100",pString,strlen(pString));

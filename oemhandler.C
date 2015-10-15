@@ -5,8 +5,6 @@
 
 void register_netfn_oem_partial_esel() __attribute__((constructor));
 
-
-
 const char *g_esel_path = "/tmp/";
 uint16_t g_record_id = 0x0100;
 
@@ -32,39 +30,41 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 {
     esel_request_t *reqptr = (esel_request_t*) request;
     FILE *fp;
-    char string[32];
-    short offset = 0, record=0;
-    unsigned short rlen;
+    short offset = 0;
+    uint8_t rlen;
     ipmi_ret_t rc = IPMI_CC_OK;
-    char iocmd[4];
+    char iocmd[][4] = { { "wb" },  {"rb+"} };
+    char string[64];
+    char *pio;
 
-    strcpy(string, g_esel_path);
     
     offset = LSMSSWAP(reqptr->offsetls, reqptr->offsetms);
 
-    sprintf(string, "%s%s%02x%02x", string, "esel", reqptr->selrecordms, reqptr->selrecordls);
+    snprintf(string, sizeof(string), "%s%s%02x%02x", g_esel_path, "esel", reqptr->selrecordms, reqptr->selrecordls);
 
 
     // Length is the number of request bytes minus the header itself.
     // The header contains an extra byte to indicate the start of
     // the data (so didn't need to worry about word/byte boundaries)
     // hence the -1...
-    rlen = ((unsigned short)*data_len) - (sizeof(esel_request_t));
+    rlen = (*data_len) - (uint8_t) (sizeof(esel_request_t));
 
 
     printf("IPMI PARTIAL ESEL for %s  Offset = %d Length = %d\n", 
         string, offset, rlen);
 
+
+    // Rules state for a Partial eSel that the first write of a
+    // new esel will be the sensor data record.  We will use that
+    // to indicate this is a new record rather then an ofset in
+    // my next commit TODO
     if (offset == 0) {
-        strcpy(iocmd, "wb");
+        pio = iocmd[0];
     } else {
-        // I was thinking "ab+" but it appears it doesn't
-        // do what fseek asks.  Modify to rb+ and fseek 
-        // works great...
-        strcpy(iocmd, "rb+");
+        pio = iocmd[1];
     }
 
-    if ((fp = fopen(string, iocmd)) != NULL) {
+    if ((fp = fopen(string, pio)) != NULL) {
         fseek(fp, offset, SEEK_SET);
         fwrite(reqptr+1,rlen,1,fp);
         fclose(fp);
@@ -75,8 +75,8 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 
 
     } else {
-        fprintf(stderr, "Error trying to perform %s for esel%s\n",iocmd, string);
-        ipmi_ret_t rc = IPMI_CC_INVALID;   
+        fprintf(stderr, "Error trying to perform %s for esel%s\n",pio, string);
+        rc = IPMI_CC_INVALID;
         *data_len     = 0;
     }
     

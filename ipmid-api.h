@@ -1,5 +1,5 @@
-#ifndef __HOST_IPMID_IPMI_COMMON_H__
-#define __HOST_IPMID_IPMI_COMMON_H__
+#ifndef __HOST_IPMID_API_COMMON_H__
+#define __HOST_IPMID_API_COMMON_H__
 #include <stdlib.h>
 
 // length of Completion Code and its ALWAYS _1_

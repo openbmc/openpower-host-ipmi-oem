@@ -11,8 +11,8 @@ uint16_t g_record_id = 0x0100;
 
 #define LSMSSWAP(x,y) ((y)<<8|(x))
 
-const char *fio_wb[] = "wb";
-const char *fio_rb[] = "rb+";
+const char *fio_wb = "wb";
+const char *fio_rb = "rb+";
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     uint8_t rlen;
     ipmi_ret_t rc = IPMI_CC_OK;
     char string[64];
-    char *pio;
+    const char *pio;
 
     
     offset = LSMSSWAP(reqptr->offsetls, reqptr->offsetms);

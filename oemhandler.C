@@ -11,9 +11,6 @@ uint16_t g_record_id = 0x0100;
 
 #define LSMSSWAP(x,y) ((y)<<8|(x))
 
-const char *fio_wb = "wb";
-const char *fio_rb = "rb+";
-
 
 ///////////////////////////////////////////////////////////////////////////////
 // For the First partial add eSEL the SEL Record ID and offset 
@@ -61,9 +58,9 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     // to indicate this is a new record rather then an ofset in
     // my next commit TODO
     if (offset == 0) {
-        pio = fio_wb;
+        pio = "wb";
     } else {
-        pio = fio_rb;
+        pio = "rb+";
     }
 
     if ((fp = fopen(string, pio)) != NULL) {

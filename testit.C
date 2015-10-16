@@ -1,12 +1,10 @@
-#include <iostream>
 #include <cstdlib>
+#include <cstring>
+#include <fstream>
+#include <iostream>
+#include <vector>
 #include "ipmid-api.h"
 #include "oemhandler.h"
-#include <cstring>
-
-#include <iostream>
-#include <fstream>
-#include <vector>
 
 using namespace std;
 

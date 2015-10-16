@@ -9,7 +9,7 @@ const char *g_esel_path = "/tmp/";
 uint16_t g_record_id = 0x0100;
 
 
-#define LSMSSWAP(x,y) (y<<8|x)
+#define LSMSSWAP(x,y) ((y)<<8|(x))
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -33,9 +33,8 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     short offset = 0;
     uint8_t rlen;
     ipmi_ret_t rc = IPMI_CC_OK;
-    char iocmd[][4] = { { "wb" },  {"rb+"} };
     char string[64];
-    char *pio;
+    const char *pio;
 
     
     offset = LSMSSWAP(reqptr->offsetls, reqptr->offsetms);
@@ -59,9 +58,9 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     // to indicate this is a new record rather then an ofset in
     // my next commit TODO
     if (offset == 0) {
-        pio = iocmd[0];
+        pio = "wb";
     } else {
-        pio = iocmd[1];
+        pio = "rb+";
     }
 
     if ((fp = fopen(string, pio)) != NULL) {

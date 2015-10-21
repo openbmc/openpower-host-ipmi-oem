@@ -2,7 +2,8 @@
 #define __HOST_IPMI_OPENPOWEROEM_HANDLER_H__
 
 #include <stdint.h>
-#include "ipmid-api.h"
+#include <host-ipmid/ipmid-api.h>
+
 
 // IPMI commands for net functions.
 enum ipmi_netfn_oem_cmds

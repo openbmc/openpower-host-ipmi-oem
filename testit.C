@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#include "ipmid-api.h"
+#include <host-ipmid/ipmid-api.h>
 #include "oemhandler.h"
 
 using namespace std;

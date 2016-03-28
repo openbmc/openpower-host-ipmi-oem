@@ -5,6 +5,7 @@
 #include <string.h>
 #include <systemd/sd-bus.h>
 
+
 void register_netfn_oem_partial_esel() __attribute__((constructor));
 
 const char *g_esel_path = "/tmp/esel";
@@ -80,6 +81,11 @@ ipmi_ret_t ipmi_ibm_oem_prep_fw_update(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 {
     ipmi_ret_t ipmi_rc = IPMI_CC_OK;
     *data_len = 0;
+
+    if(restricted_mode)
+    {
+       return IPMI_CC_INSUFFICIENT_PRIVILEGE;
+    }
 
     int rc = 0;
     std::ofstream rwfs_file;

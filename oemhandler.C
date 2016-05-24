@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <systemd/sd-bus.h>
+#include <endian.h>
 
 void register_netfn_oem_partial_esel() __attribute__((constructor));
 
@@ -29,9 +30,8 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 	esel_request_t *reqptr = (esel_request_t*) request;
 	FILE *fp;
 	int r = 0;
-	// TODO: Issue 5: This is not endian-safe.
-	short *recid  =  (short*) &reqptr->selrecordls;
-	short *offset =  (short*) &reqptr->offsetls;
+	short recid  =  le16toh((((unsigned short) reqptr->selrecordms) << 8) + reqptr->selrecordls);
+	short offset =  le16toh((((unsigned short) reqptr->offsetms) << 8) + reqptr->offsetls);
 	uint8_t rlen;
 	ipmi_ret_t rc = IPMI_CC_OK;
 	const char *pio;
@@ -59,7 +59,7 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 
     // OpenPOWER Host Interface spec says if RecordID and Offset are
 	// 0 then then this is a new request
-	if (!*recid && !*offset)
+	if (!recid && !offset)
 		pio = "wb";
 	else
 		pio = "rb+";
@@ -67,10 +67,10 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 	rlen = (*data_len) - (uint8_t) (sizeof(esel_request_t));
 
 	printf("IPMI PARTIAL ESEL for %s  Offset = %d Length = %d\n",
-		g_esel_path, *offset, rlen);
+		g_esel_path, offset, rlen);
 
 	if ((fp = fopen(g_esel_path, pio)) != NULL) {
-		fseek(fp, *offset, SEEK_SET);
+		fseek(fp, offset, SEEK_SET);
 		fwrite(reqptr+1,rlen,1,fp);
 		fclose(fp);
 

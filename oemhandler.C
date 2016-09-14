@@ -141,11 +141,19 @@ ipmi_ret_t ipmi_ibm_oem_prep_fw_update(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 
 void register_netfn_oem_partial_esel()
 {
-	printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n",NETFUN_OEM, IPMI_CMD_PESEL);
-	ipmi_register_callback(NETFUN_OEM, IPMI_CMD_PESEL, NULL, ipmi_ibm_oem_partial_esel);
+    ipmi_cmd_data_t command_data;
+    command_data.canExecuteSessionless = false;
+    command_data.privilegeMask = IPMI_SESSION_PRIVILEGE_ANY;
+    command_data.supportedChannels = IPMI_CHANNEL_SYSTEM_INTERFACE_ONLY;
+    command_data.commandSupportMask = IPMI_COMMAND_SUPPORT_NO_DISABLE;
+
+    printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n",NETFUN_OEM, IPMI_CMD_PESEL);
+    ipmi_register_callback(NETFUN_OEM, IPMI_CMD_PESEL, NULL, ipmi_ibm_oem_partial_esel,
+                           command_data);
 
     printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_OEM, IPMI_CMD_PREP_FW_UPDATE);
-    ipmi_register_callback(NETFUN_OEM, IPMI_CMD_PREP_FW_UPDATE, NULL, ipmi_ibm_oem_prep_fw_update);
-
-	return;
+    ipmi_register_callback(NETFUN_OEM, IPMI_CMD_PREP_FW_UPDATE, NULL, ipmi_ibm_oem_prep_fw_update,
+                           command_data);
+ 
+    return;
 }

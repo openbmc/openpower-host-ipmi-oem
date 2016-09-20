@@ -1,5 +1,5 @@
-#include "oemhandler.h"
-#include <host-ipmid/ipmid-api.h>
+#include "oemhandler.hpp"
+#include "host-ipmid/ipmid-api.h"
 #include <fstream>
 #include <stdio.h>
 #include <string.h>

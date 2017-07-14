@@ -1,10 +1,15 @@
 #include "oemhandler.hpp"
+#include "config.h"
 #include <host-ipmid/ipmid-api.h>
+#include <host-ipmid/ipmid-host-cmd.hpp>
 #include <fstream>
 #include <stdio.h>
 #include <string.h>
-#include <systemd/sd-bus.h>
 #include <endian.h>
+#include <functional>
+#include <systemd/sd-bus.h>
+#include <sdbusplus/bus.hpp>
+#include <host-interface.hpp>
 
 void register_netfn_oem_partial_esel() __attribute__((constructor));
 
@@ -136,6 +141,12 @@ ipmi_ret_t ipmi_ibm_oem_prep_fw_update(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     return ipmi_rc;
 }
 
+namespace {
+// Static storage to keep the object alive during process life
+std::unique_ptr<open_power::host::command::Host> opHost
+        __attribute__((init_priority(101)));
+}
+
 void register_netfn_oem_partial_esel()
 {
     printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n",NETFUN_OEM, IPMI_CMD_PESEL);
@@ -146,5 +157,17 @@ void register_netfn_oem_partial_esel()
     ipmi_register_callback(NETFUN_OEM, IPMI_CMD_PREP_FW_UPDATE, NULL, ipmi_ibm_oem_prep_fw_update,
                            SYSTEM_INTERFACE);
 
+    // Create new xyz.openbmc_project.host object on the bus
+    auto objPathInst = std::string{CONTROL_HOST_OBJPATH} + '0';
+
+    // Add sdbusplus ObjectManager.
+    sdbusplus::server::manager::manager objManager(*sdbusp,
+                                                   objPathInst.c_str());
+
+    opHost = std::make_unique<open_power::host::command::Host>(
+                        *sdbusp, objPathInst.c_str());
+
+    // Service for this is provided by phosphor layer systemcmdintf
+    // and this will be as part of that.
     return;
 }

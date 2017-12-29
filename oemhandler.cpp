@@ -1,6 +1,6 @@
 #include "oemhandler.hpp"
 #include "config.h"
-#include "elog-errors.hpp"
+#include "phosphor-logging/elog-errors.hpp"
 #include <host-ipmid/ipmid-api.h>
 #include <host-ipmid/ipmid-host-cmd.hpp>
 #include <fstream>

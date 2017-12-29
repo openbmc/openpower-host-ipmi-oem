@@ -1,3 +1,4 @@
+if !INSTALL_ERROR_YAML
 liboemhandlerdir = ${libdir}/ipmid-providers
 liboemhandler_LTLIBRARIES = liboemhandler.la
 
@@ -27,3 +28,9 @@ org/open_power/OCC/Metrics/error.hpp: ${top_srcdir}/org/open_power/OCC/Metrics.e
 org/open_power/OCC/Metrics/error.cpp: ${top_srcdir}/org/open_power/OCC/Metrics.errors.yaml
 	@mkdir -p `dirname $@`
 	$(SDBUSPLUSPLUS) -r $(top_srcdir) error exception-cpp org.open_power.OCC.Metrics > $@
+endif
+# Export error YAML to shared location
+yamldir = ${datadir}/phosphor-dbus-yaml/yaml
+nobase_yaml_DATA = \
+	org/open_power/OCC/Metrics.errors.yaml \
+	org/open_power/OCC/Metrics.metadata.yaml

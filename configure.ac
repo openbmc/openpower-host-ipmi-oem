@@ -11,52 +11,59 @@ AM_PROG_AR
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
-# Checks for libraries.
-PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221])
+# Check for compiler, packages only when install_error_yaml optional feature
+# is disabled
+AC_ARG_ENABLE([install_error_yaml],
+    AS_HELP_STRING([--enable-install_error_yaml], [Enable installing error yaml file]),
+        [], [install_error_yaml=yes])
+AM_CONDITIONAL([INSTALL_ERROR_YAML], [test "x$enable_install_error_yaml" = "xyes"])
+AS_IF([test "x$enable_install_error_yaml" != "xyes"], [
+    # Checks for libraries.
+    PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221])
 
-# Checks for header files.
-AC_CHECK_HEADER(systemd/sd-bus.h, ,[AC_MSG_ERROR([Could not find systemd/sd-bus.h...systemd development package required])])
-AC_CHECK_HEADER(host-ipmid/ipmid-api.h, ,[AC_MSG_ERROR([Could not find host-ipmid/ipmid-api.h...host-ipmid package required])])
-PKG_CHECK_MODULES([OPENPOWER_DBUS_INTERFACES], [openpower-dbus-interfaces],,
-                  [AC_MSG_ERROR([Could not find openpower-dbus-interfaces...openbmc/openpower-dbus-interfaces package required])])
-PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus],,\
-    AC_MSG_ERROR(["Requires sdbusplus package."]))
-PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging],,\
-    AC_MSG_ERROR(["Requires phosphor-logging package."]))
+    # Checks for header files.
+    AC_CHECK_HEADER(systemd/sd-bus.h, ,[AC_MSG_ERROR([Could not find systemd/sd-bus.h...systemd development package required])])
+    AC_CHECK_HEADER(host-ipmid/ipmid-api.h, ,[AC_MSG_ERROR([Could not find host-ipmid/ipmid-api.h...host-ipmid package required])])
+    PKG_CHECK_MODULES([OPENPOWER_DBUS_INTERFACES], [openpower-dbus-interfaces],,
+                      [AC_MSG_ERROR([Could not find openpower-dbus-interfaces...openbmc/openpower-dbus-interfaces package required])])
+    PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus],,\
+        AC_MSG_ERROR(["Requires sdbusplus package."]))
+    PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging],,\
+        AC_MSG_ERROR(["Requires phosphor-logging package."]))
 
-# Check for sdbus++ tool
-AC_PATH_PROG([SDBUSPLUSPLUS], [sdbus++])
-AS_IF([test "x$SDBUSPLUSPLUS" == "x"], AC_MSG_ERROR([Cannot find sdbus++]))
+    # Check for sdbus++ tool
+    AC_PATH_PROG([SDBUSPLUSPLUS], [sdbus++])
+    AS_IF([test "x$SDBUSPLUSPLUS" == "x"], AC_MSG_ERROR([Cannot find sdbus++]))
 
-# Checks for typedefs, structures, and compiler characteristics.
-AX_CXX_COMPILE_STDCXX(14, [noext])
-AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CXXFLAGS])
+    # Checks for typedefs, structures, and compiler characteristics.
+    AX_CXX_COMPILE_STDCXX(14, [noext])
+    AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CXXFLAGS])
 
-# Checks for library functions.
-LT_INIT([disable-static shared])
+    # Checks for library functions.
+    LT_INIT([disable-static shared])
 
-# Check/set gtest specific functions.
-AX_PTHREAD([GTEST_CPPFLAGS="-DGTEST_HAS_PTHREAD=1"],[GTEST_CPPFLAGS="-GTEST_HAS_PTHREAD=0"])
-AC_SUBST(GTEST_CPPFLAGS)
+    # Check/set gtest specific functions.
+    AX_PTHREAD([GTEST_CPPFLAGS="-DGTEST_HAS_PTHREAD=1"],[GTEST_CPPFLAGS="-GTEST_HAS_PTHREAD=0"])
+    AC_SUBST(GTEST_CPPFLAGS)
 
-AC_ARG_ENABLE([oe-sdk],
-    AS_HELP_STRING([--enable-oe-sdk], [Link testcases absolutely against OE SDK so they can be ran within it.])
-)
-AC_ARG_VAR(OECORE_TARGET_SYSROOT,
-    [Path to the OE SDK SYSROOT])
-AS_IF([test "x$enable_oe_sdk" == "xyes"],
-    AS_IF([test "x$OECORE_TARGET_SYSROOT" == "x"],
-          AC_MSG_ERROR([OECORE_TARGET_SYSROOT must be set with --enable-oe-sdk])
+    AC_ARG_ENABLE([oe-sdk],
+        AS_HELP_STRING([--enable-oe-sdk], [Link testcases absolutely against OE SDK so they can be ran within it.])
     )
-    AC_MSG_NOTICE([Enabling OE-SDK at $OECORE_TARGET_SYSROOT])
-    [
-        testcase_flags="-Wl,-rpath,\${OECORE_TARGET_SYSROOT}/lib"
-        testcase_flags="${testcase_flags} -Wl,-rpath,\${OECORE_TARGET_SYSROOT}/usr/lib"
-        testcase_flags="${testcase_flags} -Wl,-dynamic-linker,`find \${OECORE_TARGET_SYSROOT}/lib/ld-*.so | sort -r -n | head -n1`"
-    ]
-    AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
-)
-
+    AC_ARG_VAR(OECORE_TARGET_SYSROOT,
+        [Path to the OE SDK SYSROOT])
+    AS_IF([test "x$enable_oe_sdk" == "xyes"],
+        AS_IF([test "x$OECORE_TARGET_SYSROOT" == "x"],
+              AC_MSG_ERROR([OECORE_TARGET_SYSROOT must be set with --enable-oe-sdk])
+        )
+        AC_MSG_NOTICE([Enabling OE-SDK at $OECORE_TARGET_SYSROOT])
+        [
+            testcase_flags="-Wl,-rpath,\${OECORE_TARGET_SYSROOT}/lib"
+            testcase_flags="${testcase_flags} -Wl,-rpath,\${OECORE_TARGET_SYSROOT}/usr/lib"
+            testcase_flags="${testcase_flags} -Wl,-dynamic-linker,`find \${OECORE_TARGET_SYSROOT}/lib/ld-*.so | sort -r -n | head -n1`"
+        ]
+        AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
+    )
+])
 # Host object name in the D-Bus
 AC_ARG_VAR(HOST_NAME, [The Host name in the object path])
 AS_IF([test "x$HOST_NAME" == "x"],

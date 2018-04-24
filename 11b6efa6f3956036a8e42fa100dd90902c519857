@@ -1,0 +1,11 @@
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+1: Patrick Venture <venture@google.com>
+Code-Review+1: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Code-Review+1: Edward A. James <eajames@us.ibm.com>
+Code-Review+2: Tom Joseph <tomjoseph@in.ibm.com>
+Submitted-by: Tom Joseph <tomjoseph@in.ibm.com>
+Submitted-at: Tue, 24 Apr 2018 07:20:19 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/9859
+Project: openbmc/openpower-host-ipmi-oem
+Branch: refs/heads/master

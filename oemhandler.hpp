@@ -12,6 +12,7 @@ enum ipmi_netfn_oem_cmds
     IPMI_CMD_PREP_FW_UPDATE = 0x10,
     IPMI_CMD_PESEL = 0xF0,
     IPMI_CMD_OCC_RESET = 0x0E,
+    IPMI_CMD_ISOLATE_SP = 0xA5,
 };
 
 /** @brief Read eSEL data into a string

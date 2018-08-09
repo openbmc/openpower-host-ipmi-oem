@@ -11,6 +11,7 @@
 #include <functional>
 #include <systemd/sd-bus.h>
 #include <sdbusplus/bus.hpp>
+#include <sdbusplus/exception.hpp>
 #include <host-interface.hpp>
 #include <org/open_power/OCC/Metrics/error.hpp>
 
@@ -205,6 +206,30 @@ ipmi_ret_t ipmi_ibm_oem_prep_fw_update(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     return ipmi_rc;
 }
 
+ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
+                                     ipmi_request_t request, ipmi_response_t response,
+                                     ipmi_data_len_t data_len, ipmi_context_t context)
+{
+    constexpr auto BMC_UPDATER_BUSNAME = "xyz.openbmc_project.Software.BMC.Updater";
+    constexpr auto SOFTWARE_PATH = "/xyz/openbmc_project/software";
+    constexpr auto FACTORY_RESET_INTERFACE = "xyz.openbmc_project.Common.FactoryReset";
+
+    sdbusplus::bus::bus bus{ipmid_get_sd_bus_connection()};
+
+    auto method = bus.new_method_call(BMC_UPDATER_BUSNAME, SOFTWARE_PATH,
+                                      FACTORY_RESET_INTERFACE, "Reset");
+    try
+    {
+        bus.call_noreply(method);
+    }
+    catch (const sdbusplus::exception::SdBusError& e)
+    {
+        return IPMI_CC_UNSPECIFIED_ERROR;
+    }
+
+    return IPMI_CC_OK;
+}
+
 namespace {
 // Storage to keep the object alive during process life
 std::unique_ptr<open_power::host::command::Host> opHost
@@ -222,6 +247,11 @@ void register_netfn_ibm_oem_commands()
     printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_OEM, IPMI_CMD_PREP_FW_UPDATE);
     ipmi_register_callback(NETFUN_OEM, IPMI_CMD_PREP_FW_UPDATE, NULL, ipmi_ibm_oem_prep_fw_update,
                            SYSTEM_INTERFACE);
+
+    printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_OEM,
+           IPMI_CMD_BMC_FACTORY_RESET);
+    ipmi_register_callback(NETFUN_OEM, IPMI_CMD_BMC_FACTORY_RESET, NULL,
+                           ipmi_ibm_oem_bmc_factory_reset, SYSTEM_INTERFACE);
 
     // Create new object on the bus
     auto objPath = std::string{CONTROL_HOST_OBJ_MGR} + '/' + HOST_NAME + '0';

@@ -213,10 +213,21 @@ ipmi_ret_t ipmi_ibm_oem_reset_bmc_auth(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
                                        ipmi_context_t context)
 {
     ipmi_ret_t rc;
+    ipmi_ret_t finalRC = IPMI_CC_OK;
 
     rc = local::users::enableUsers();
+    if (rc != IPMI_CC_OK)
+    {
+        finalRC = rc;
+    }
 
-    return rc;
+    rc = local::users::resetRootPassword();
+    if (rc != IPMI_CC_OK)
+    {
+        finalRC = rc;
+    }
+
+    return finalRC;
 }
 
 namespace {

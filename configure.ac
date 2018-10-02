@@ -78,6 +78,11 @@ AC_DEFINE(MAPPER_OBJ, "/xyz/openbmc_project/object_mapper",
 AC_DEFINE(MAPPER_IFACE, "xyz.openbmc_project.ObjectMapper",
           [The object mapper interface])
 
+AC_ARG_VAR(DEFAULT_PW, [Default PW])
+AS_IF([test "x$DEFAULT_PW" == "x"],
+      [DEFAULT_PW="0penBmc"])
+AC_DEFINE_UNQUOTED([DEFAULT_PW], ["$DEFAULT_PW"], [Default PW])
+
 # Create configured output.
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

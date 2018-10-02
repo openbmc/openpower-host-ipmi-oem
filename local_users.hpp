@@ -17,5 +17,14 @@ namespace users
  */
 ipmi_ret_t enableUsers();
 
+
+/**
+ * Resets the root password back to the default one
+ * using PAM.
+ *
+ * @return ipmi_ret_t - IPMI_CC_SUCCESS if successful
+ */
+ipmi_ret_t resetRootPassword();
+
 }
 }

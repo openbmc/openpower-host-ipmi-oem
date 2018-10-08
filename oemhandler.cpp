@@ -1,6 +1,7 @@
 #include "oemhandler.hpp"
 #include "config.h"
 #include "elog-errors.hpp"
+#include "ldap.hpp"
 #include "local_users.hpp"
 #include <host-ipmid/ipmid-api.h>
 #include <host-ipmid/ipmid-host-cmd.hpp>
@@ -222,6 +223,12 @@ ipmi_ret_t ipmi_ibm_oem_reset_bmc_auth(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     }
 
     rc = local::users::resetRootPassword();
+    if (rc != IPMI_CC_OK)
+    {
+        finalRC = rc;
+    }
+
+    rc = ldap::deleteConfig();
     if (rc != IPMI_CC_OK)
     {
         finalRC = rc;

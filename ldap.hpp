@@ -4,7 +4,8 @@
 namespace ldap
 {
     /**
-     * Deletes the LDAP configuration object, if present
+     * Deletes the LDAP configuration object and any LDAP
+     * user objects.
      *
      * @return ipmi_ret_t - IPMI_CC_SUCCESS if successful
      */

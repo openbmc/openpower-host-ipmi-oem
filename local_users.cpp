@@ -1,5 +1,6 @@
 #include "config.h"
 #include "local_users.hpp"
+#include "types.hpp"
 #include <experimental/filesystem>
 #include <fstream>
 #include <host-ipmid/ipmid-host-cmd.hpp>
@@ -15,15 +16,10 @@ namespace users
 
 using namespace phosphor::logging;
 namespace fs = std::experimental::filesystem;
+using namespace util;
 
 constexpr auto userIface = "xyz.openbmc_project.User.Attributes";
 constexpr auto propIface = "org.freedesktop.DBus.Properties";
-
-using DbusObjectPath = std::string;
-using DbusService = std::string;
-using DbusInterface = std::string;
-using ObjectTree = std::map<DbusObjectPath,
-                            std::map<DbusService, std::vector<DbusInterface>>>;
 
 static constexpr auto pamService = "resetrootpw";
 static constexpr auto pamConfPath = "/etc/pam.d/";

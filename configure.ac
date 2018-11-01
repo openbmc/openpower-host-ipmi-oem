@@ -70,6 +70,9 @@ AS_IF([test "x$CONTROL_HOST_OBJ_MGR" == "x"],
       [CONTROL_HOST_OBJ_MGR="/org/open_power/control"])
 AC_DEFINE_UNQUOTED([CONTROL_HOST_OBJ_MGR], ["$CONTROL_HOST_OBJ_MGR"], [The Control Host D-Bus Object Manager])
 
+AC_DEFINE(SYSTEMD_PROPERTY_INTERFACE, "org.freedesktop.DBus.Properties",
+          [systemd properties interface])
+
 AC_DEFINE(MAPPER_BUS_NAME, "xyz.openbmc_project.ObjectMapper",
           [The object mapper bus name])
 
@@ -78,6 +81,27 @@ AC_DEFINE(MAPPER_OBJ, "/xyz/openbmc_project/object_mapper",
 
 AC_DEFINE(MAPPER_IFACE, "xyz.openbmc_project.ObjectMapper",
           [The object mapper interface])
+
+AC_DEFINE(BMC_UPDATER_BUSNAME, "xyz.openbmc_project.Software.BMC.Updater",
+          [The BMC software manager busname])
+
+AC_DEFINE(SOFTWARE_PATH, "/xyz/openbmc_project/software",
+          [The software manager path])
+
+AC_DEFINE(FACTORY_RESET_INTERFACE, "xyz.openbmc_project.Common.FactoryReset",
+          [The factory reset interface])
+
+AC_DEFINE(STATE_CHASSIS_PATH, "/xyz/openbmc_project/state/chassis0",
+          [The state chassis path])
+
+AC_DEFINE(STATE_CHASSIS_INTERFACE, "xyz.openbmc_project.State.Chassis",
+          [The state chassis interface])
+
+AC_DEFINE(STATE_BMC_PATH, "/xyz/openbmc_project/state/bmc0",
+          [The state BMC path])
+
+AC_DEFINE(STATE_BMC_INTERFACE, "xyz.openbmc_project.State.BMC",
+          [The state BMC interface])
 
 # Create configured output.
 AC_CONFIG_FILES([Makefile])

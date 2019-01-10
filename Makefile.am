@@ -4,10 +4,13 @@ liboemhandler_LTLIBRARIES = liboemhandler.la
 liboemhandler_la_SOURCES = oemhandler.cpp \
                            host-interface.cpp \
                            local_users.cpp \
-                           org/open_power/OCC/Metrics/error.cpp
+                           org/open_power/OCC/Metrics/error.cpp \
+                           org/open_power/Host/error.cpp
 
 BUILT_SOURCES = org/open_power/OCC/Metrics/error.hpp \
-                org/open_power/OCC/Metrics/error.cpp
+                org/open_power/OCC/Metrics/error.cpp \
+                org/open_power/Host/error.hpp \
+                org/open_power/Host/error.cpp
 
 liboemhandler_la_LDFLAGS = $(SYSTEMD_LIBS)\
                            $(SDBUSPLUS_LIBS) \
@@ -28,3 +31,11 @@ org/open_power/OCC/Metrics/error.hpp: ${top_srcdir}/org/open_power/OCC/Metrics.e
 org/open_power/OCC/Metrics/error.cpp: ${top_srcdir}/org/open_power/OCC/Metrics.errors.yaml
 	@mkdir -p `dirname $@`
 	$(SDBUSPLUSPLUS) -r $(top_srcdir) error exception-cpp org.open_power.OCC.Metrics > $@
+
+org/open_power/Host/error.hpp: ${top_srcdir}/org/open_power/Host.errors.yaml
+	@mkdir -p `dirname $@`
+	$(SDBUSPLUSPLUS) -r $(top_srcdir) error exception-header org.open_power.Host > $@
+
+org/open_power/Host/error.cpp: ${top_srcdir}/org/open_power/Host.errors.yaml
+	@mkdir -p `dirname $@`
+	$(SDBUSPLUSPLUS) -r $(top_srcdir) error exception-cpp org.open_power.Host > $@

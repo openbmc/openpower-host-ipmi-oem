@@ -1,7 +1,7 @@
 #ifndef __HOST_IPMI_OPENPOWEROEM_HANDLER_H__
 #define __HOST_IPMI_OPENPOWEROEM_HANDLER_H__
 
-#include <host-ipmid/ipmid-api.h>
+#include <ipmid/api.h>
 #include <stdint.h>
 
 #include <string>

@@ -2,6 +2,7 @@ liboemhandlerdir = ${libdir}/ipmid-providers
 liboemhandler_LTLIBRARIES = liboemhandler.la
 
 liboemhandler_la_SOURCES = oemhandler.cpp \
+                           chassishandler.cpp \
                            host-interface.cpp \
                            org/open_power/OCC/Metrics/error.cpp \
                            inventory-sensor.cpp

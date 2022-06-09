@@ -43,5 +43,5 @@ This command is not allowed when the IPMI restriction mode is set to
 'Whitelist'.  See [here][1] for more information.
 
 [0]: https://github.com/openbmc/phosphor-dbus-interfaces/tree/master/xyz/openbmc_project/Common/FactoryReset#xyzopenbmc_projectsoftwarebmcupdater
-[1]: https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/xyz/openbmc_project/Control/Security/RestrictionMode.interface.yaml
+[1]: https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Control/Security/RestrictionMode.interface.yaml
 

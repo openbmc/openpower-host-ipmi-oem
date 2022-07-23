@@ -18,7 +18,7 @@ using IpmiCmdData = phosphor::host::command::IpmiCmdData;
  *  @details A concrete implementation for org.open_power.Control.Host
  *  DBus API.
  */
-class Host : public sdbusplus::server::object::object<Base::Host>
+class Host : public sdbusplus::server::object_t<Base::Host>
 {
   public:
     /** @brief Constructs Host Control Interface
@@ -26,8 +26,8 @@ class Host : public sdbusplus::server::object::object<Base::Host>
      *  @param[in] bus     - The Dbus bus object
      *  @param[in] objPath - The Dbus object path
      */
-    Host(sdbusplus::bus::bus& bus, const char* objPath) :
-        sdbusplus::server::object::object<Base::Host>(bus, objPath), bus(bus)
+    Host(sdbusplus::bus_t& bus, const char* objPath) :
+        sdbusplus::server::object_t<Base::Host>(bus, objPath), bus(bus)
     {
         // Nothing to do
     }
@@ -43,7 +43,7 @@ class Host : public sdbusplus::server::object::object<Base::Host>
 
   private:
     /** @brief sdbusplus DBus bus connection. */
-    sdbusplus::bus::bus& bus;
+    sdbusplus::bus_t& bus;
 
     /** @brief  Callback function to be invoked by command manager
      *

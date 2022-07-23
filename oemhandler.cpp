@@ -79,7 +79,7 @@ std::string mapCalloutAssociation(const std::string& eSELData)
     return {};
 }
 
-std::string getService(sdbusplus::bus::bus& bus, const std::string& path,
+std::string getService(sdbusplus::bus_t& bus, const std::string& path,
                        const std::string& interface)
 {
     auto method = bus.new_method_call(MAPPER_BUS_NAME, MAPPER_OBJ, MAPPER_IFACE,
@@ -103,7 +103,7 @@ std::string getService(sdbusplus::bus::bus& bus, const std::string& path,
             return std::string{};
         }
     }
-    catch (const sdbusplus::exception::exception& e)
+    catch (const sdbusplus::exception_t& e)
     {
         log<level::ERR>("Error in mapper method call",
                         entry("ERROR=%s", e.what()));
@@ -345,7 +345,7 @@ ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
                                           ipmi_data_len_t data_len,
                                           ipmi_context_t context)
 {
-    sdbusplus::bus::bus bus{ipmid_get_sd_bus_connection()};
+    sdbusplus::bus_t bus{ipmid_get_sd_bus_connection()};
 
     // Since this is a one way command (i.e. the host is requesting a power
     // off of itself and a reboot of the BMC) we can exceed the 5 second
@@ -369,7 +369,7 @@ ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     {
         bus.call_noreply(method);
     }
-    catch (const sdbusplus::exception::exception& e)
+    catch (const sdbusplus::exception_t& e)
     {
         log<level::ERR>("Error powering off the chassis",
                         entry("ERROR=%s", e.what()));
@@ -386,7 +386,7 @@ ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     {
         bus.call_noreply(method);
     }
-    catch (const sdbusplus::exception::exception& e)
+    catch (const sdbusplus::exception_t& e)
     {
         log<level::ERR>("Error setting factory reset",
                         entry("ERROR=%s", e.what()));
@@ -415,7 +415,7 @@ ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     {
         bus.call_noreply(method);
     }
-    catch (const sdbusplus::exception::exception& e)
+    catch (const sdbusplus::exception_t& e)
     {
         log<level::ALERT>("Error calling to reboot the BMC. The BMC needs to "
                           "be manually rebooted to complete the factory reset.",
@@ -431,7 +431,7 @@ namespace
 // Storage to keep the object alive during process life
 std::unique_ptr<open_power::host::command::Host> opHost
     __attribute__((init_priority(101)));
-std::unique_ptr<sdbusplus::server::manager::manager> objManager
+std::unique_ptr<sdbusplus::server::manager_t> objManager
     __attribute__((init_priority(101)));
 } // namespace
 
@@ -455,7 +455,7 @@ void register_netfn_ibm_oem_commands()
 
     // Add sdbusplus ObjectManager.
     auto& sdbusPlusHandler = ipmid_get_sdbus_plus_handler();
-    objManager = std::make_unique<sdbusplus::server::manager::manager>(
+    objManager = std::make_unique<sdbusplus::server::manager_t>(
         *sdbusPlusHandler, CONTROL_HOST_OBJ_MGR);
 
     opHost = std::make_unique<open_power::host::command::Host>(

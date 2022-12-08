@@ -1,5 +1,5 @@
 - name: Event
   level: INFO
   meta:
-    - str: "ESEL=%s"
-      type: string
+      - str: "ESEL=%s"
+        type: string

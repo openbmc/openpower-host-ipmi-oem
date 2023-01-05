@@ -184,6 +184,36 @@ void createHostEntry(const std::string& eSELData)
     }
 }
 
+/** @brief Helper function to do a graceful restart (reboot) of the BMC.
+    @return 0 on success, -1 on error
+ */
+int rebootBMC()
+{
+    sdbusplus::bus::bus bus{ipmid_get_sd_bus_connection()};
+    auto service = getService(bus, stateBmcPath, stateBmcIntf);
+    if (service.empty())
+    {
+        log<level::ERR>("Error getting the service name to reboot the BMC.");
+        return -1;
+    }
+    std::variant<std::string> reboot =
+        "xyz.openbmc_project.State.BMC.Transition.Reboot";
+    auto method = bus.new_method_call(service.c_str(), stateBmcPath,
+                                      propertiesIntf, "Set");
+    method.append(stateBmcIntf, "RequestedBMCTransition", reboot);
+    try
+    {
+        bus.call_noreply(method);
+    }
+    catch (const sdbusplus::exception_t& e)
+    {
+        log<level::ERR>("Error calling to reboot the BMC.",
+                        entry("ERROR=%s", e.what()));
+        return -1;
+    }
+    return 0;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // For the First partial add eSEL the SEL Record ID and offset
 // value should be 0x0000. The extended data needs to be in
@@ -299,13 +329,6 @@ ipmi_ret_t ipmi_ibm_oem_prep_fw_update(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 
     int rc = 0;
     std::ofstream rwfs_file;
-    const char* busname = "org.openbmc.control.Bmc";
-    const char* objname = "/org/openbmc/control/bmc0";
-    const char* iface = "org.openbmc.control.Bmc";
-    sd_bus* bus = ipmid_get_sd_bus_connection();
-    sd_bus_message* reply = NULL;
-    sd_bus_error error = SD_BUS_ERROR_NULL;
-    int r = 0;
 
     // Set one time flag
     rc = system(
@@ -325,16 +348,13 @@ ipmi_ret_t ipmi_ibm_oem_prep_fw_update(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     rwfs_file.close();
 
     // Reboot the BMC for settings to take effect
-    r = sd_bus_call_method(bus, busname, objname, iface, "warmReset", &error,
-                           &reply, NULL);
-    if (r < 0)
+    rc = rebootBMC();
+    if (rc < 0)
     {
-        fprintf(stderr, "Failed to reset BMC: %s\n", strerror(-r));
+        fprintf(stderr, "Failed to reset BMC: %s\n", strerror(-rc));
         return -1;
     }
     printf("Warning: BMC is going down for reboot!\n");
-    sd_bus_error_free(&error);
-    reply = sd_bus_message_unref(reply);
 
     return ipmi_rc;
 }
@@ -398,28 +418,11 @@ ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     std::this_thread::sleep_for(setFactoryWait);
 
     // Reboot BMC
-    service = getService(bus, stateBmcPath, stateBmcIntf);
-    if (service.empty())
+    auto rc = rebootBMC();
+    if (rc < 0)
     {
-        log<level::ALERT>("Error getting the service name to reboot the BMC. "
-                          "The BMC needs to be manually rebooted to complete "
+        log<level::ALERT>("The BMC needs to be manually rebooted to complete "
                           "the factory reset.");
-        return IPMI_CC_UNSPECIFIED_ERROR;
-    }
-    std::variant<std::string> reboot =
-        "xyz.openbmc_project.State.BMC.Transition.Reboot";
-    method = bus.new_method_call(service.c_str(), stateBmcPath, propertiesIntf,
-                                 "Set");
-    method.append(stateBmcIntf, "RequestedBMCTransition", reboot);
-    try
-    {
-        bus.call_noreply(method);
-    }
-    catch (const sdbusplus::exception_t& e)
-    {
-        log<level::ALERT>("Error calling to reboot the BMC. The BMC needs to "
-                          "be manually rebooted to complete the factory reset.",
-                          entry("ERROR=%s", e.what()));
         return IPMI_CC_UNSPECIFIED_ERROR;
     }
 

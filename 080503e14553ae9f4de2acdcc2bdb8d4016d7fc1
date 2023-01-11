@@ -1,0 +1,8 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+1: Andrew Geissler <andrew@geissonator.com>
+Code-Review+2: Andrew Jeffery <andrew@aj.id.au>
+Submitted-by: Andrew Jeffery <andrew@aj.id.au>
+Submitted-at: Wed, 11 Jan 2023 22:42:39 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/openpower-host-ipmi-oem/+/60069
+Project: openbmc/openpower-host-ipmi-oem
+Branch: refs/heads/master

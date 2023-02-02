@@ -189,7 +189,7 @@ void createHostEntry(const std::string& eSELData)
  */
 int rebootBMC()
 {
-    sdbusplus::bus::bus bus{ipmid_get_sd_bus_connection()};
+    sdbusplus::bus_t bus{ipmid_get_sd_bus_connection()};
     auto service = getService(bus, stateBmcPath, stateBmcIntf);
     if (service.empty())
     {

@@ -10,15 +10,16 @@
 #include <string.h>
 #include <systemd/sd-bus.h>
 
-#include <fstream>
-#include <functional>
 #include <host-interface.hpp>
 #include <ipmid-host/cmd.hpp>
-#include <memory>
 #include <org/open_power/Host/error.hpp>
 #include <org/open_power/OCC/Metrics/error.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/exception.hpp>
+
+#include <fstream>
+#include <functional>
+#include <memory>
 
 void register_netfn_ibm_oem_commands() __attribute__((constructor));
 
@@ -69,8 +70,8 @@ std::string mapCalloutAssociation(const std::string& eSELData)
      */
     auto found = std::find_if(invSensors.begin(), invSensors.end(),
                               [&sensor](const auto& iter) {
-                                  return (iter.second.sensorID == sensor);
-                              });
+        return (iter.second.sensorID == sensor);
+    });
     if (found != invSensors.end())
     {
         return found->first;

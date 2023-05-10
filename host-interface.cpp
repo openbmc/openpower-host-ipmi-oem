@@ -1,12 +1,13 @@
 #include <config.h>
 
-#include <chrono>
-#include <functional>
 #include <host-interface.hpp>
 #include <ipmid-host/cmd-utils.hpp>
 #include <ipmid-host/cmd.hpp>
 #include <oemhandler.hpp>
 #include <phosphor-logging/log.hpp>
+
+#include <chrono>
+#include <functional>
 namespace open_power
 {
 namespace host

@@ -33,6 +33,7 @@
 
 owners:
 - andrew@aj.id.au
+- geissonator@yahoo.com
 
 reviewers:
 
@@ -42,3 +43,6 @@ openbmc:
 - name: Andrew Jeffery
   email: andrew@aj.id.au
   discord: arj
+- name: Andrew Geissler
+  email: geissonator@yahoo.com
+  discord: geissonator

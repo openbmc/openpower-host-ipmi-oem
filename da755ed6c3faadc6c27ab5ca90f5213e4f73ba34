@@ -16,6 +16,23 @@
       "message": "Jenkins is already broken for phosphor-host-ipmid.  Adding a +1 Verified so we can get this fix merged.",
       "revId": "da755ed6c3faadc6c27ab5ca90f5213e4f73ba34",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e95116b1_0e3341a8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-09-12T10:22:15Z",
+      "side": 1,
+      "message": "Merging this to unblock openbmc/openbmc merges.  If there are any concerns with the content, let me know and I\u0027ll follow up.",
+      "revId": "da755ed6c3faadc6c27ab5ca90f5213e4f73ba34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

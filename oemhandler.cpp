@@ -70,8 +70,8 @@ std::string mapCalloutAssociation(const std::string& eSELData)
      */
     auto found = std::find_if(invSensors.begin(), invSensors.end(),
                               [&sensor](const auto& iter) {
-        return (iter.second.sensorID == sensor);
-    });
+                                  return (iter.second.sensorID == sensor);
+                              });
     if (found != invSensors.end())
     {
         return found->first;
@@ -227,11 +227,9 @@ int rebootBMC()
 // function to commit the error log in to long term
 // storage.  Likely via the ipmi add_sel command.
 ///////////////////////////////////////////////////////////////////////////////
-ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
-                                     ipmi_request_t request,
-                                     ipmi_response_t response,
-                                     ipmi_data_len_t data_len,
-                                     ipmi_context_t context)
+ipmi_ret_t ipmi_ibm_oem_partial_esel(
+    ipmi_netfn_t netfn, ipmi_cmd_t cmd, ipmi_request_t request,
+    ipmi_response_t response, ipmi_data_len_t data_len, ipmi_context_t context)
 {
     uint8_t* reqptr = (uint8_t*)request;
     esel_request_t esel_req;
@@ -319,11 +317,9 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
 
 // Prepare for FW Update.
 // Execute needed commands to prepare the system for a fw update from the host.
-ipmi_ret_t ipmi_ibm_oem_prep_fw_update(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
-                                       ipmi_request_t request,
-                                       ipmi_response_t response,
-                                       ipmi_data_len_t data_len,
-                                       ipmi_context_t context)
+ipmi_ret_t ipmi_ibm_oem_prep_fw_update(
+    ipmi_netfn_t netfn, ipmi_cmd_t cmd, ipmi_request_t request,
+    ipmi_response_t response, ipmi_data_len_t data_len, ipmi_context_t context)
 {
     ipmi_ret_t ipmi_rc = IPMI_CC_OK;
     *data_len = 0;
@@ -360,11 +356,9 @@ ipmi_ret_t ipmi_ibm_oem_prep_fw_update(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
     return ipmi_rc;
 }
 
-ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(ipmi_netfn_t netfn, ipmi_cmd_t cmd,
-                                          ipmi_request_t request,
-                                          ipmi_response_t response,
-                                          ipmi_data_len_t data_len,
-                                          ipmi_context_t context)
+ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(
+    ipmi_netfn_t netfn, ipmi_cmd_t cmd, ipmi_request_t request,
+    ipmi_response_t response, ipmi_data_len_t data_len, ipmi_context_t context)
 {
     sdbusplus::bus_t bus{ipmid_get_sd_bus_connection()};
 

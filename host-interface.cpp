@@ -41,10 +41,10 @@ void Host::execute(Base::Host::Command command, std::variant<uint8_t> data)
     {
         auto sensorID = std::get<uint8_t>(data);
 
-        auto cmd = std::make_tuple(std::make_pair(IPMI_CMD_OCC_RESET, sensorID),
-                                   std::bind(&Host::commandStatusHandler, this,
-                                             std::placeholders::_1,
-                                             std::placeholders::_2));
+        auto cmd = std::make_tuple(
+            std::make_pair(IPMI_CMD_OCC_RESET, sensorID),
+            std::bind(&Host::commandStatusHandler, this, std::placeholders::_1,
+                      std::placeholders::_2));
 
         return ipmid_send_cmd_to_host(std::move(cmd));
     }

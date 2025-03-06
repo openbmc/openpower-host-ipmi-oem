@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c154da5_867072f8",
+        "filename": "configure.ac",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-03-06T02:04:38Z",
+      "side": 1,
+      "message": "Compile fails is:\nconfigure.ac:29: error: invalid first argument `23\u0027 to AX_CXX_COMPILE_STDCXX\n\nI think that means the latest autoconf-archive we install in the docker container doesn\u0027t support 23 yet?",
+      "revId": "b751965c196791a85b4a012bcaf8671d19137a2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

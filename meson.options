@@ -1,0 +1,15 @@
+option('tests', type: 'feature', description: 'Build tests')
+
+option(
+    'host-name',
+    type: 'string',
+    value: 'host',
+    description: 'The Host name in the object path.',
+)
+
+# Generate configuration from Yaml
+option(
+    'invsensor-yaml-gen',
+    type: 'string',
+    value: 'inventory-sensor-example.yaml',
+)

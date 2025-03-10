@@ -7,11 +7,10 @@ https://github.com/open-power/op-build
 ```
 To build this package, do the following steps:
 
-    1. ./bootstrap.sh
-    2. ./configure ${CONFIGURE_FLAGS}
-    3. make
+    meson setup build
+    ninja -C build
 
-To clean the repository run `./bootstrap.sh clean`.
+To clean the repository again run rm -rf build.
 ```
 
 ## Supported Commands

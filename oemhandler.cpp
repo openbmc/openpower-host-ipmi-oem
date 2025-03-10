@@ -228,8 +228,8 @@ int rebootBMC()
 // storage.  Likely via the ipmi add_sel command.
 ///////////////////////////////////////////////////////////////////////////////
 ipmi_ret_t ipmi_ibm_oem_partial_esel(
-    ipmi_netfn_t netfn, ipmi_cmd_t cmd, ipmi_request_t request,
-    ipmi_response_t response, ipmi_data_len_t data_len, ipmi_context_t context)
+    [[maybe_unused]] ipmi_netfn_t netfn, [[maybe_unused]] ipmi_cmd_t cmd, [[maybe_unused]] ipmi_request_t request,
+    [[maybe_unused]] ipmi_response_t response, ipmi_data_len_t data_len, [[maybe_unused]] ipmi_context_t context)
 {
     uint8_t* reqptr = (uint8_t*)request;
     esel_request_t esel_req;
@@ -318,8 +318,8 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(
 // Prepare for FW Update.
 // Execute needed commands to prepare the system for a fw update from the host.
 ipmi_ret_t ipmi_ibm_oem_prep_fw_update(
-    ipmi_netfn_t netfn, ipmi_cmd_t cmd, ipmi_request_t request,
-    ipmi_response_t response, ipmi_data_len_t data_len, ipmi_context_t context)
+    [[maybe_unused]] ipmi_netfn_t netfn, [[maybe_unused]] ipmi_cmd_t cmd, [[maybe_unused]] ipmi_request_t request,
+    [[maybe_unused]] ipmi_response_t response, ipmi_data_len_t data_len, [[maybe_unused]] ipmi_context_t context)
 {
     ipmi_ret_t ipmi_rc = IPMI_CC_OK;
     *data_len = 0;
@@ -357,8 +357,8 @@ ipmi_ret_t ipmi_ibm_oem_prep_fw_update(
 }
 
 ipmi_ret_t ipmi_ibm_oem_bmc_factory_reset(
-    ipmi_netfn_t netfn, ipmi_cmd_t cmd, ipmi_request_t request,
-    ipmi_response_t response, ipmi_data_len_t data_len, ipmi_context_t context)
+    [[maybe_unused]] ipmi_netfn_t netfn, [[maybe_unused]] ipmi_cmd_t cmd, [[maybe_unused]] ipmi_request_t request,
+    [[maybe_unused]] ipmi_response_t response, [[maybe_unused]] ipmi_data_len_t data_len, [[maybe_unused]] ipmi_context_t context)
 {
     sdbusplus::bus_t bus{ipmid_get_sd_bus_connection()};
 

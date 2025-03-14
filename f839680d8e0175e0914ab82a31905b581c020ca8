@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "336e8145_e9aac020",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-03-14T17:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf0ada7e_ca395c49",
+      "range": {
+        "startLine": 4,
+        "startChar": 1,
+        "endLine": 4,
+        "endChar": 73
+      },
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90ebb736_3aac8c09",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-03-14T11:29:45Z",
       "side": 1,
       "message": "can this be removed ? don\u0027t see that the compiler object is not used anywhere else.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e683b314_f516561e",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-03-14T17:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90ebb736_3aac8c09",
       "range": {
         "startLine": 8,
         "startChar": 0,
@@ -70,6 +118,87 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c011b053_16116768",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-03-14T17:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88441a55_189901b4",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93c56d32_884be445",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-03-14T17:42:51Z",
+      "side": 1,
+      "message": "Need to use \"library\" so we can add a version and get the .so.0 and .so.0.1 links by default. This then lets us work with obmc-phosphor-ipmiprovider-symlink.bbclass (which assumes the 2 links and the library during the install).\nThis was not fun figuring out.",
+      "range": {
+        "startLine": 38,
+        "startChar": 17,
+        "endLine": 38,
+        "endChar": 30
+      },
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fbcbd2c_32f5e8c1",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-03-14T17:42:51Z",
+      "side": 1,
+      "message": "To stay consistent with previous code (and bitbake recipe), the name of the library should be \"oemhandler\"",
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c19d2150_78d125b9",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-03-14T17:42:51Z",
+      "side": 1,
+      "message": "Add a \"override_options: [\u0027b_lundef\u003dfalse\u0027],\" so it wont fail to compile due to the missing ipmi register functions it gets when it\u0027s loaded in by ipmid.",
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b83d7dd0_e99b63d1",
@@ -83,6 +212,24 @@
       "writtenOn": "2025-03-14T11:29:45Z",
       "side": 1,
       "message": "can we drop this option ? I dont think we should give this flexibility to change it via a meson option.",
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e48aa0f_a9801d02",
+        "filename": "meson.options",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2025-03-14T17:42:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b83d7dd0_e99b63d1",
       "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

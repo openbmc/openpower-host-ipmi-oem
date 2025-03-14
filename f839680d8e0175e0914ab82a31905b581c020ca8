@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf0ada7e_ca395c49",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000206
+      },
+      "writtenOn": "2025-03-14T11:29:45Z",
+      "side": 1,
+      "message": "wanna add the default build type as well ? \n\n`buildtype\u003ddebugoptimized`",
+      "range": {
+        "startLine": 4,
+        "startChar": 1,
+        "endLine": 4,
+        "endChar": 73
+      },
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90ebb736_3aac8c09",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000206
+      },
+      "writtenOn": "2025-03-14T11:29:45Z",
+      "side": 1,
+      "message": "can this be removed ? don\u0027t see that the compiler object is not used anywhere else.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 31
+      },
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88441a55_189901b4",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000206
+      },
+      "writtenOn": "2025-03-14T11:29:45Z",
+      "side": 1,
+      "message": "do you also wanna add subproject/*.wrap files for these ?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 63
+      },
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b83d7dd0_e99b63d1",
+        "filename": "meson.options",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000206
+      },
+      "writtenOn": "2025-03-14T11:29:45Z",
+      "side": 1,
+      "message": "can we drop this option ? I dont think we should give this flexibility to change it via a meson option.",
+      "revId": "f839680d8e0175e0914ab82a31905b581c020ca8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

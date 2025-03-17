@@ -16,6 +16,24 @@
       "message": "This needs to be \"INPUT1\" so that it uses the full path. Bitbake passes in an override that has a lengthy path to use. The python script needs to be updated to not tack on the directory as meson now handles that.",
       "revId": "9f92653a62311707e5f9c91ccdfc7c9429a7921c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0717f39d_714a1090",
+        "filename": "scripts/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000206
+      },
+      "writtenOn": "2025-03-17T14:57:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5deafb5b_f70ca3de",
+      "revId": "9f92653a62311707e5f9c91ccdfc7c9429a7921c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

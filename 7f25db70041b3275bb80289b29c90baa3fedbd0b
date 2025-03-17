@@ -3,6 +3,69 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1b6b470_fef18c75",
+        "filename": ".gitignore",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-17T19:57:37Z",
+      "side": 1,
+      "message": "why .vscode?\n\nThese shouldn\u0027t exist like this in repositories.  As a developer, you should use the global gitignore support in order to automatically ignore content from your own editor.\n\n`git config --global core.excludesFile \u0027~/.gitignore\u0027`",
+      "revId": "7f25db70041b3275bb80289b29c90baa3fedbd0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8144113_b0c101c6",
+        "filename": "README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-17T19:57:37Z",
+      "side": 1,
+      "message": "nit: add ` wrappers",
+      "range": {
+        "startLine": 13,
+        "startChar": 34,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "7f25db70041b3275bb80289b29c90baa3fedbd0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e535e69_59c07d69",
+        "filename": "oemhandler.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-17T19:57:37Z",
+      "side": 1,
+      "message": "fwiw, there are constants generated from PDI for these.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 77
+      },
+      "revId": "7f25db70041b3275bb80289b29c90baa3fedbd0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "55a6bd5d_a02519b0",
         "filename": "org/open_power/OCC/Metrics/meson.build",
         "patchSetId": 4
@@ -14,6 +77,23 @@
       "writtenOn": "2025-03-17T18:41:35Z",
       "side": 1,
       "message": "Why\u0027d this get written by hand rather than using the generators?",
+      "revId": "7f25db70041b3275bb80289b29c90baa3fedbd0b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61648ec0_65d98709",
+        "filename": "subprojects/sdbusplus.wrap",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-03-17T19:57:37Z",
+      "side": 1,
+      "message": "I\u0027m surprised you didn\u0027t need this also:\n```\nprogram_names \u003d sdbus++, sdbus++-gen-meson\n```",
       "revId": "7f25db70041b3275bb80289b29c90baa3fedbd0b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

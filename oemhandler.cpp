@@ -12,6 +12,7 @@
 
 #include <host-interface.hpp>
 #include <ipmid-host/cmd.hpp>
+#include <ipmid/api-types.hpp>
 #include <org/open_power/Host/error.hpp>
 #include <org/open_power/OCC/Metrics/error.hpp>
 #include <sdbusplus/bus.hpp>
@@ -444,17 +445,17 @@ std::unique_ptr<sdbusplus::server::manager_t> objManager
 
 void register_netfn_ibm_oem_commands()
 {
-    printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_IBM_OEM,
+    printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", ipmi::netFnOemSix,
            IPMI_CMD_PESEL);
-    ipmi_register_callback(NETFUN_IBM_OEM, IPMI_CMD_PESEL, NULL,
+    ipmi_register_callback(ipmi::netFnOemSix, IPMI_CMD_PESEL, NULL,
                            ipmi_ibm_oem_partial_esel, SYSTEM_INTERFACE);
 
-    printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", NETFUN_OEM,
+    printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", ipmi::netFnOemTwo,
            IPMI_CMD_PREP_FW_UPDATE);
-    ipmi_register_callback(NETFUN_OEM, IPMI_CMD_PREP_FW_UPDATE, NULL,
+    ipmi_register_callback(ipmi::netFnOemTwo, IPMI_CMD_PREP_FW_UPDATE, NULL,
                            ipmi_ibm_oem_prep_fw_update, SYSTEM_INTERFACE);
 
-    ipmi_register_callback(NETFUN_IBM_OEM, IPMI_CMD_BMC_FACTORY_RESET, NULL,
+    ipmi_register_callback(ipmi::netFnOemSix, IPMI_CMD_BMC_FACTORY_RESET, NULL,
                            ipmi_ibm_oem_bmc_factory_reset, SYSTEM_INTERFACE);
 
     // Create new object on the bus

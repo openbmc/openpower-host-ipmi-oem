@@ -1,17 +1,19 @@
+# openpower-host-ipmi-oem
+
 This .so file is designed to support the OpenPOWER's BIOS OEM commands.
 Documentation can be found by contacting the OpenPOWER mailing list @
-https://github.com/open-power/op-build
+<https://github.com/open-power/op-build>
 
 ## To Build
 
-```
 To build this package, do the following steps:
 
-    meson setup build
-    ninja -C build
-
-To clean the repository again run rm -rf build.
+```shell
+meson setup build
+ninja -C build
 ```
+
+To clean the repository again run `rm -rf build`.
 
 ## Supported Commands
 
@@ -25,8 +27,8 @@ To clean the repository again run rm -rf build.
 
 Netfun: 0x3a Command: 0x11
 
-This command will call to reset the BMC to its factory default. See [here][0]
-for the factory reset implementation details.
+This command will call to reset the BMC to its factory default. See the
+[`FactoryReset`][0] interface for the factory reset implementation details.
 
 This includes:
 
@@ -42,7 +44,7 @@ Because the chassis is powered off, the host does not receive a return code when
 successful.
 
 This command is not allowed when the IPMI restriction mode is set to
-'Whitelist'. See [here][1] for more information.
+'Whitelist'. See the [`RestrictedModes`][1] interrface for more information.
 
 [0]:
   https://github.com/openbmc/phosphor-dbus-interfaces/tree/master/xyz/openbmc_project/Common/FactoryReset#xyzopenbmc_projectsoftwarebmcupdater

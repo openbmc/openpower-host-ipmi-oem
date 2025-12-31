@@ -273,7 +273,7 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(
 
     rlen = (*data_len) - (uint8_t)(sizeof(esel_request_t));
 
-    if ((fp = fopen(g_esel_path, pio)) != NULL)
+    if ((fp = fopen(g_esel_path, pio)) != nullptr)
     {
         fseek(fp, esel_req.offset, SEEK_SET);
         fwrite(reqptr + (uint8_t)(sizeof(esel_request_t)), rlen, 1, fp);
@@ -448,16 +448,17 @@ void register_netfn_ibm_oem_commands()
 {
     printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", ipmi::netFnOemSix,
            IPMI_CMD_PESEL);
-    ipmi_register_callback(ipmi::netFnOemSix, IPMI_CMD_PESEL, NULL,
+    ipmi_register_callback(ipmi::netFnOemSix, IPMI_CMD_PESEL, nullptr,
                            ipmi_ibm_oem_partial_esel, SYSTEM_INTERFACE);
 
     printf("Registering NetFn:[0x%X], Cmd:[0x%X]\n", ipmi::netFnOemTwo,
            IPMI_CMD_PREP_FW_UPDATE);
-    ipmi_register_callback(ipmi::netFnOemTwo, IPMI_CMD_PREP_FW_UPDATE, NULL,
+    ipmi_register_callback(ipmi::netFnOemTwo, IPMI_CMD_PREP_FW_UPDATE, nullptr,
                            ipmi_ibm_oem_prep_fw_update, SYSTEM_INTERFACE);
 
-    ipmi_register_callback(ipmi::netFnOemSix, IPMI_CMD_BMC_FACTORY_RESET, NULL,
-                           ipmi_ibm_oem_bmc_factory_reset, SYSTEM_INTERFACE);
+    ipmi_register_callback(ipmi::netFnOemSix, IPMI_CMD_BMC_FACTORY_RESET,
+                           nullptr, ipmi_ibm_oem_bmc_factory_reset,
+                           SYSTEM_INTERFACE);
 
     // Create new object on the bus
     auto objPath = std::string{"/org/open_power/control"} + '/' + HOST_NAME +

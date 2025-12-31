@@ -27,7 +27,7 @@ class Host : public sdbusplus::server::object_t<Base::Host>
      *  @param[in] objPath - The Dbus object path
      */
     Host(sdbusplus::bus_t& bus, const char* objPath) :
-        sdbusplus::server::object_t<Base::Host>(bus, objPath), bus(bus)
+        sdbusplus::server::object_t<Base::Host>(bus, objPath)
     {
         // Nothing to do
     }
@@ -42,9 +42,6 @@ class Host : public sdbusplus::server::object_t<Base::Host>
     void execute(Command command, std::variant<uint8_t> data) override;
 
   private:
-    /** @brief sdbusplus DBus bus connection. */
-    sdbusplus::bus_t& bus;
-
     /** @brief  Callback function to be invoked by command manager
      *
      *  @detail Conveys the status of the last Host bound command.

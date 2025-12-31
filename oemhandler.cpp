@@ -307,7 +307,8 @@ ipmi_ret_t ipmi_ibm_oem_partial_esel(
 
         // If the eSEL record type is OCC metrics, then create the OCC log
         // entry.
-        if (eSELData[2] == occMetricsType)
+        if (static_cast<uint8_t>(eSELData[2]) ==
+            static_cast<uint8_t>(occMetricsType))
         {
             createOCCLogEntry(eSELData);
         }

@@ -44,7 +44,7 @@ Because the chassis is powered off, the host does not receive a return code when
 successful.
 
 This command is not allowed when the IPMI restriction mode is set to
-'Whitelist'. See the [`RestrictedModes`][1] interrface for more information.
+'Whitelist'. See the [`RestrictedModes`][1] interface for more information.
 
 [0]:
   https://github.com/openbmc/phosphor-dbus-interfaces/tree/master/xyz/openbmc_project/Common/FactoryReset#xyzopenbmc_projectsoftwarebmcupdater
